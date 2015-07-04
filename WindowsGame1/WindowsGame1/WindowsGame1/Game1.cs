@@ -1078,6 +1078,30 @@ namespace WindowsGame1
             
             
         }
+        
+        public void tradePhase(Card card, int index, int sectionNumber)
+        {
+            string message = "";
+            //We're selecting or deselecting a candidate card to trade
+            if (sectionNumber == 4)
+            {
+                card.invertSelect();
+                //Make sure we've picked enough cards to trade (always 1?)
+                if (allSections[4].minSelectable > allSections[4].totalSelected)
+                    allSections[7].isSelectable = false;
+                else
+                    allSections[7].isSelectable = true;
+                return;
+            }
+            else if (sectionNumber != 7 && index != 0) {return;}
+            //check color of good and draw that many cards for player
+            card.hasGood = false;
+            int numCards = 2;
+            for (int i = 0; i < numCards; i++)
+            {
+                players.Peek().AddCardToHand(deck.Dequeue());
+            }
+        }
 
         public void setupConsumePhase(Player player)
         {
