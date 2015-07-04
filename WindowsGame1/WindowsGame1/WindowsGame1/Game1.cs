@@ -1048,6 +1048,36 @@ namespace WindowsGame1
                 nextPhase();
             }
         }
+        
+        public void setupTradePhase(Player player)
+        {
+             allSections[4] = new Section(4, 2, this);
+            //If we didn't pick trade, move to regular consume
+            if(!player.phaseSelected.Equals("$")){ /*Call nextPhase or setupConsume Directly?*/ return;}
+            //Move all cards from tableau, with goods, to section 4
+                foreach (Card c in allSections[5])
+                {
+                    if (c.hasGood)
+                    {
+                        allSections[4].AddCard(new Card(c));
+                    }
+                }
+                if (allSections[4].Count < 1)
+                {
+                    phaseMessage = "You chose trade phase but have no goods. You can't do anything. Doofus";
+                    allSections[7].isSelectable = true;
+                    //nextPhase();
+                    return;
+                }
+                phaseMessage = "Choose one good to trade in for cards.";
+                allSections[4].minSelectable = 1;
+                allSections[4].maxSelectable = 1;
+                allSections[4].isSelectable = true;
+                allSections[4].resetSection();
+                return;
+            
+            
+        }
 
         public void setupConsumePhase(Player player)
         {
